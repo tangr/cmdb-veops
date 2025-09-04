@@ -21,6 +21,14 @@ services:
       platforms:
         - linux/amd64
         - linux/arm64
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 16G
+        reservations:
+          cpus: "1.0"
+          memory: 2G
     image: registry.cn-hangzhou.aliyuncs.com/veops/cmdb-ui:2.5.4-fix
     environment:
       TZ: Asia/Shanghai
