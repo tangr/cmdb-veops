@@ -1,0 +1,30 @@
+services:
+  cmdb-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-API
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    image: registry.cn-hangzhou.aliyuncs.com/veops/cmdb-api:2.5.4-fix
+    environment:
+      TZ: Asia/Shanghai
+      WAIT_HOSTS: cmdb-db:3306, cmdb-cache:6379
+      SYSTEM_DEFAULT_LANGUAGE: # en-US, zh-CN
+      # DOCKER_BUILDKIT_ATTESTATION: false
+      # BUILDX_NO_DEFAULT_ATTESTATIONS: true
+
+  cmdb-ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-UI
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    image: registry.cn-hangzhou.aliyuncs.com/veops/cmdb-ui:2.5.4-fix
+    environment:
+      TZ: Asia/Shanghai
+      CMDB_API_HOST: cmdb-api:5000
+      NGINX_PORT: 80
+    ports:
+      - "8000:80"
